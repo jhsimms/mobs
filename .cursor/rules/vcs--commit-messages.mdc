@@ -1,0 +1,53 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+Commit Message Standards
+Format
+<type>(<scope>): <short summary>
+
+<body>
+
+<footer>
+Types
+
+feat: A new feature
+fix: A bug fix
+docs: Documentation only changes
+style: Changes that don't affect code meaning (formatting)
+refactor: Code change that neither fixes a bug nor adds a feature
+test: Adding or correcting tests
+chore: Changes to build process or auxiliary tools
+
+Scope
+
+Optional component name affected (e.g., terraform, api, metadata)
+
+Summary
+
+Use imperative, present tense ("add" not "added" or "adds")
+Don't capitalize first letter
+No period at the end
+Keep under 50 characters
+
+Body
+
+Explain what and why, not how
+Include motivation for change
+Reference issues if applicable
+Wrap at 72 characters
+
+Examples
+feat(provisioning): add tenant bucket encryption
+
+Implement server-side encryption for tenant S3 buckets to enhance security.
+fix(metadata): handle concurrent update conflicts
+
+Resolve race condition when multiple requests attempt to update the same
+tenant metadata by implementing optimistic locking with version numbers.
+refactor(terraform): simplify config generation
+
+Extract template logic into separate function to improve readability
+and make the code more maintainable.
+These standards ensure consistent, professional, and useful code and commit messages throughout the project.

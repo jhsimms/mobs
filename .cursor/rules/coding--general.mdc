@@ -1,0 +1,61 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Coding Standards Guide
+General Principles
+
+Write self-documenting code prioritizing clarity over cleverness
+Aim for high cohesion and loose coupling between components
+Follow the principle of least surprise in API design
+Practice "Clean Code" principles (Robert C. Martin)
+
+Code Structure
+
+Keep functions small (preferably under 20 lines)
+Each function should do one thing well
+Functions should operate at a single level of abstraction
+Decompose complex operations into private helper functions
+Avoid deep nesting (prefer early returns)
+Group related functionality in the same package/module
+
+Naming Conventions
+
+Use descriptive, intention-revealing names
+Choose longer, clearer names over shorter, ambiguous ones
+Follow Go conventions: CamelCase for exported identifiers, camelCase for non-exported
+Use verb phrases for functions (e.g., createBucket, not bucketCreation)
+Use noun phrases for variables and structs
+Avoid abbreviations unless universally understood
+
+Documentation
+
+Add comments for public API elements using Go doc syntax
+Document non-obvious behavior in private functions
+Avoid comments that merely repeat what the code says
+Include examples for non-trivial public functions
+Document error handling expectations and guarantees
+
+Error Handling
+
+Be explicit about error conditions
+Return errors rather than using panic
+Provide context in error messages (e.g., "failed to create bucket: %w")
+Use structured error handling when appropriate
+Clean up resources properly in error cases
+
+Testing
+
+Write tests for all public functions
+Name tests descriptively (e.g., TestCreateBucket_ValidInput_CreatesSuccessfully)
+Use table-driven tests for multiple test cases
+Create small, focused tests that verify one specific behavior
+Include edge cases and error scenarios
+
+Performance & Resources
+
+Be conscious of resource usage (memory, file handles, etc.)
+Clean up temporary resources promptly
+Consider concurrency implications
+Prefer efficiency without premature optimization
