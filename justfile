@@ -10,7 +10,7 @@ default:
 # Use standardized commit format
 # Usage: just commit feat api "add tenant creation endpoint"
 commit TYPE SCOPE MESSAGE:
-    @scripts/commit.sh "{{TYPE}}" "{{SCOPE}}" "{{MESSAGE}}"
+    @scripts/commit.sh -t "{{TYPE}}" -s "{{SCOPE}}" -m "{{MESSAGE}}"
 
 # Verify required tools (Docker, Docker Compose, LocalStack, Terraform, Go, AWS CLI)
 deps:
@@ -19,8 +19,8 @@ deps:
 
 # Regenerate .gitignore for all technologies in the list
 regenerate-gitignore:
-    @echo "Regenerating .gitignore for: {{technologies}}"
-    @scripts/regenerate_gitignore.sh {{technologies}}
+    @echo "Regenerating .gitignore for: {{technologies}} and {{ignore_entries}}"
+    @scripts/regenerate_gitignore.sh {{technologies}} {{ignore_entries}}
     @echo ".gitignore updated."
 
 # Remove build artifacts and temporary files
