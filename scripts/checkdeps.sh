@@ -5,7 +5,7 @@
 set -e
 missing=0
 
-deps=(docker docker-compose localstack terraform go aws)
+deps=(docker docker-compose localstack terraform go aws adr)
 
 for dep in "${deps[@]}"; do
     if ! command -v "$dep" > /dev/null; then

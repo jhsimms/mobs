@@ -7,6 +7,11 @@ ignore_entries := ".cursor"
 default:
     @just --list
 
+# Create a new ADR
+# Usage: just adr "Use bucket-per-tenant isolation model"
+adr TITLE:
+    @adr new "{{TITLE}}"
+
 # Use standardized commit format
 # Usage: just commit feat api "add tenant creation endpoint"
 commit TYPE SCOPE MESSAGE:
