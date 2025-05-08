@@ -46,9 +46,30 @@ start:
     @echo "Starting LocalStack and deploying infrastructure..."
     @echo "Not yet implemented"
 
-# Run tests
-test:
-    @echo "Running tests..."
+# Run all tests
+test: test-domain
+    @echo "Running all tests..."
+
+# Run domain model tests
+test-domain:
+    @echo "Running domain model tests..."
+    @go test -v ./test/domain/...
+
+# Run domain model tests with coverage
+test-domain-coverage:
+    @echo "Running domain model tests with coverage..."
+    @go test -v -coverprofile=coverage.out ./test/domain/...
+    @go tool cover -html=coverage.out -o coverage.html
+    @echo "Coverage report generated at coverage.html"
+
+# Run integration tests
+test-integration:
+    @echo "Running integration tests..."
+    @echo "Not yet implemented"
+
+# Run API tests
+test-api:
+    @echo "Running API tests..."
     @echo "Not yet implemented"
 
 # Run static analysis
