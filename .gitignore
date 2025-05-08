@@ -70,3 +70,5 @@ terraform.rc
 
 # Additional entries
 .cursor
+data
+mobs

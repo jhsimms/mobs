@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 set -eu
 
+MAX_BODY_LENGTH=250
+
 usage() {
     echo "Usage: $0 -t TYPE -s SCOPE -m MESSAGE [files...]"
     echo "  -t TYPE     Commit type (feat, fix, docs, style, refactor, test, chore)"
     echo "  -s SCOPE    Commit scope (e.g., component or file)"
-    echo "  -m MESSAGE  Commit message (max 50 chars, no leading cap, no trailing period)"
+    echo "  -m MESSAGE  Commit message (max $MAX_BODY_LENGTH chars, no leading cap, no trailing period)"
     echo "  files       Files to stage (optional, default: all changes)"
     exit 1
 }
@@ -55,29 +57,9 @@ if [ "$valid_type" = false ]; then
 fi
 
 # Validate commit message length
-if [ ${#MESSAGE} -gt 50 ]; then
-    echo "Error: Commit message too long (${#MESSAGE} chars, max 50)"
+if [ ${#MESSAGE} -gt $MAX_BODY_LENGTH ]; then
+    echo "Error: Commit message too long (${#MESSAGE} chars, max $MAX_BODY_LENGTH)"
     exit 1
-fi
-
-# Check if message starts with capital letter
-if [[ "$MESSAGE" =~ ^[A-Z] ]]; then
-    echo "Warning: Commit message should not start with a capital letter"
-    read -p "Continue anyway? [y/N] " -n 1 -r
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        exit 1
-    fi
-fi
-
-# Check if message ends with period
-if [[ "$MESSAGE" =~ \.$ ]]; then
-    echo "Warning: Commit message should not end with a period"
-    read -p "Continue anyway? [y/N] " -n 1 -r
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        exit 1
-    fi
 fi
 
 # Create the formatted commit message

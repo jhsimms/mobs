@@ -2,76 +2,32 @@ package domain
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/google/uuid"
 )
 
-// Tenant represents a customer in the multi-tenant object storage system
+// Tenant represents a tenant in the system.
 type Tenant struct {
-	// TODO: Evaluate properties
-	TenantID  string       `json:"tenant_id"`
-	Name      string       `json:"name"`
-	CreatedAt time.Time    `json:"created_at"`
-	Status    TenantStatus `json:"status"`
+	ID   string `json:"id"`
+	Name string `json:"name"`
 }
 
-// NewTenant creates a new tenant with default values
-func NewTenant(name string) (*Tenant, error) {
-	tenantID := uuid.New().String()
-
-	tenant := &Tenant{
-		TenantID:  tenantID,
-		Name:      name,
-		CreatedAt: time.Now().UTC(),
-		Status:    StatusProvisioning,
-	}
-
-	// Validate the new tenant
-	if err := tenant.Validate(); err != nil {
-		return nil, err
-	}
-
-	return tenant, nil
+// TenantMetadata contains metadata about a tenant.
+type TenantMetadata struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+	// TODO: Add more metadata fields as needed
 }
 
-// Validate checks if the tenant meets all validation rules
-func (t *Tenant) Validate() error {
-	var errors ValidationErrors
-
-	ValidateUUID("tenant_id", t.TenantID, &errors)
-	ValidateTenantName("name", t.Name, &errors)
-	ValidateTimestamp("created_at", t.CreatedAt, &errors)
-	ValidateTenantStatus("status", t.Status, &errors)
-
-	if errors.HasErrors() {
-		return errors
+// NewTenant creates a new tenant with a generated ID
+func NewTenant(name string) *Tenant {
+	return &Tenant{
+		ID:   uuid.New().String(),
+		Name: name,
 	}
-
-	return nil
 }
 
-// ChangeStatus transitions the tenant to a new status
-func (t *Tenant) ChangeStatus(newStatus TenantStatus) error {
-	// Skip if status is not changing
-	if t.Status == newStatus {
-		return nil
-	}
-
-	// Validate the status transition
-	if !IsValidTransition(t.Status, newStatus) {
-		return NewDomainError(
-			ErrInvalidTransition,
-			fmt.Sprintf("Cannot transition from %s to %s", t.Status, newStatus),
-			nil,
-		)
-	}
-
-	t.Status = newStatus
-	return nil
-}
-
-// String returns a string representation of the tenant for logging
+// String returns a string representation of the tenant
 func (t *Tenant) String() string {
-	return fmt.Sprintf("Tenant{ID: %s, Name: %s, Status: %s}", t.TenantID, t.Name, t.Status)
+	return fmt.Sprintf("Tenant{ID: %s, Name: %s}", t.ID, t.Name)
 }

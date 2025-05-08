@@ -1,6 +1,6 @@
 # List of technologies for .gitignore generation (comma-separated)
 technologies := "localstack,terraform,go,cursor"
-ignore_entries := ".cursor"
+ignore_entries := ".cursor,data,mobs"
 # To add a new technology, append it to the technologies variable above (comma-separated)
 
 # List all available commands
@@ -31,12 +31,12 @@ regenerate-gitignore:
 # Remove build artifacts and temporary files
 clean:
     @echo "Cleaning build artifacts and temporary files..."
-    @echo "Not yet implemented"
+    rm -f mobs
 
 # Compile Go application
 build:
     @echo "Building Go application..."
-    @echo "Not yet implemented"
+    go build -o mobs ./src/cli
 
 # Clean and build
 rebuild: clean build
@@ -47,30 +47,9 @@ start:
     @echo "Not yet implemented"
 
 # Run all tests
-test: test-domain
+test:
     @echo "Running all tests..."
-
-# Run domain model tests
-test-domain:
-    @echo "Running domain model tests..."
     @go test -v ./test/domain/...
-
-# Run domain model tests with coverage
-test-domain-coverage:
-    @echo "Running domain model tests with coverage..."
-    @go test -v -coverprofile=coverage.out ./test/domain/...
-    @go tool cover -html=coverage.out -o coverage.html
-    @echo "Coverage report generated at coverage.html"
-
-# Run integration tests
-test-integration:
-    @echo "Running integration tests..."
-    @echo "Not yet implemented"
-
-# Run API tests
-test-api:
-    @echo "Running API tests..."
-    @echo "Not yet implemented"
 
 # Run static analysis
 lint:
