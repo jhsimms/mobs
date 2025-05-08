@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
-# scripts/checkdeps.sh
-# Checks for required dependencies and prints all missing ones.
-
-set -e
+set -euo pipefail
 missing=0
 
 deps=(docker docker-compose localstack terraform go aws adr)

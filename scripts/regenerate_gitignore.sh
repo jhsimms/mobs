@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
-# scripts/regenerate_gitignore.sh
-# Regenerates .gitignore for the given comma-separated list of technologies.
-# Optionally appends additional entries (comma-separated) as new lines.
-
-set -e
-
+set -euo pipefail
 if [ $# -lt 1 ]; then
   echo "Usage: $0 <comma-separated-technologies> [comma-separated-additional-entries]"
   exit 1
