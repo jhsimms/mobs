@@ -8,21 +8,24 @@ import (
 	"github.com/aptible/mobs/src/storage/cloverdb"
 )
 
+// main is the entry point for the Multi-tenant Object Storage CLI.
 func main() {
-	if err := os.MkdirAll("./data", 0755); err != nil {
-		fmt.Fprintf(os.Stderr, "Failed to create data directory: %v\n", err)
+	exitOnErr := func(msg string, err error) {
+		fmt.Fprintf(os.Stderr, "%s: %v\n", msg, err)
 		os.Exit(1)
+	}
+
+	if err := os.MkdirAll("./data", 0755); err != nil {
+		exitOnErr("Failed to create data directory", err)
 	}
 	store, err := cloverdb.NewStore("./data/mobs.db")
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Failed to initialize storage: %v\n", err)
-		os.Exit(1)
+		exitOnErr("Failed to initialize storage", err)
 	}
 	service := service.NewTenantService(store)
 
 	rootCmd := setupCommands(service)
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-		os.Exit(1)
+		exitOnErr("Error", err)
 	}
 }

@@ -8,8 +8,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// setupCommands sets up the root and tenant commands.
+// setupCommands configures the root and tenant commands for the CLI.
 func setupCommands(tenantService *service.TenantService) *cobra.Command {
+	exitOnErr := func(msg string, err error) {
+		fmt.Fprintf(os.Stderr, "%s: %v\n", msg, err)
+		os.Exit(1)
+	}
+
 	rootCmd := &cobra.Command{
 		Use:   "mobs",
 		Short: "Multi-tenant Object Storage CLI",
@@ -33,8 +38,7 @@ func setupCommands(tenantService *service.TenantService) *cobra.Command {
 			}
 			meta, err := tenantService.CreateTenant(name)
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Failed to create tenant: %v\n", err)
-				os.Exit(1)
+				exitOnErr("Failed to create tenant", err)
 			}
 			fmt.Printf("Tenant created: ID=%s, Name=%s\n", meta.ID, meta.Name)
 		},
@@ -48,8 +52,7 @@ func setupCommands(tenantService *service.TenantService) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			list, err := tenantService.ListTenants()
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Failed to list tenants: %v\n", err)
-				os.Exit(1)
+				exitOnErr("Failed to list tenants", err)
 			}
 			if len(list) == 0 {
 				fmt.Println("No tenants found.")
@@ -70,8 +73,7 @@ func setupCommands(tenantService *service.TenantService) *cobra.Command {
 			id := args[0]
 			meta, err := tenantService.GetTenant(id)
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Failed to get tenant: %v\n", err)
-				os.Exit(1)
+				exitOnErr("Failed to get tenant", err)
 			}
 			fmt.Printf("ID=%s, Name=%s\n", meta.ID, meta.Name)
 		},
@@ -86,8 +88,7 @@ func setupCommands(tenantService *service.TenantService) *cobra.Command {
 			id := args[0]
 			err := tenantService.DeleteTenant(id)
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "Failed to delete tenant: %v\n", err)
-				os.Exit(1)
+				exitOnErr("Failed to delete tenant", err)
 			}
 			fmt.Printf("Tenant deleted: %s\n", id)
 		},

@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// ValidationError represents an error during domain entity validation
+// ValidationError represents an error during domain entity validation.
 type ValidationError struct {
 	Field   string
 	Message string
@@ -15,7 +15,7 @@ func (e ValidationError) Error() string {
 	return fmt.Sprintf("%s: %s", e.Field, e.Message)
 }
 
-// ValidationErrors is a collection of validation errors
+// ValidationErrors is a collection of validation errors.
 type ValidationErrors []ValidationError
 
 func (e ValidationErrors) Error() string {
@@ -36,17 +36,17 @@ func (e ValidationErrors) Error() string {
 	return sb.String()
 }
 
-// Add adds a validation error to the collection
+// Add appends a validation error to the collection.
 func (e *ValidationErrors) Add(field, message string) {
 	*e = append(*e, ValidationError{Field: field, Message: message})
 }
 
-// HasErrors returns true if there are any validation errors
+// HasErrors returns true if there are any validation errors.
 func (e ValidationErrors) HasErrors() bool {
 	return len(e) > 0
 }
 
-// DomainError represents a general domain error
+// DomainError represents a general domain error with a code, message, and optional cause.
 type DomainError struct {
 	Code    string
 	Message string
@@ -60,7 +60,7 @@ func (e DomainError) Error() string {
 	return fmt.Sprintf("%s: %s", e.Code, e.Message)
 }
 
-// NewDomainError creates a new domain error
+// NewDomainError creates a new DomainError with the given code, message, and cause.
 func NewDomainError(code, message string, cause error) DomainError {
 	return DomainError{
 		Code:    code,
@@ -69,7 +69,7 @@ func NewDomainError(code, message string, cause error) DomainError {
 	}
 }
 
-// Predefined error codes
+// Predefined error codes for domain errors.
 const (
 	ErrInvalidInput        = "INVALID_INPUT"
 	ErrInvalidState        = "INVALID_STATE"
